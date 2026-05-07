@@ -1,0 +1,65 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+*_venv/
+.conda/
+
+# IDE/editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Secrets and local config
+.env
+.env.*
+!.env.example
+
+# Model weights and large binary artifacts
+checkpoints/
+**/checkpoints/
+*.ckpt
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.onnx
+
+# Training/evaluation outputs
+output/
+outputs/
+results/
+logs/
+runs/
+wandb/
+test-results*/
+**/output/
+**/outputs/
+**/results/
+**/logs/
+**/runs/
+**/wandb/
+
+# Generated datasets. Keep code and explicit samples.
+PAD-main/data/gsm8k/
+PAD-main/data/math_splits/
+PAD-main/data/*_data/
+SpecDec_pp-main/data/alpaca_data/
+SpecDec_pp-main/data/humaneval_data/
+SpecDec_pp-main/data/gsm8k_test_data/
+egasd/data/*.json
+!egasd/data/sample_train.json
+
+# OS files
+.DS_Store
+Thumbs.db
+

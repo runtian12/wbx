@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+build/
+dist/
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+vllm_venv/
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Model data and checkpoints
+data/
+checkpoints/
+!data/shakespeare/prepare.py
+
+# Output and result directories
+output/
+outputs/
+out/
+sp_results/
+
+# Experiment tracking
+wandb/
+
+# Development and backup directories
+stash/
+trash/
+bak/
+sweeps/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+gpt-fast-ref/

@@ -1,0 +1,6 @@
+# Extra dependencies for PAD dataset generation.
+# vLLM is best installed in a separate Linux/WSL2 CUDA environment.
+vllm
+python-dotenv
+-r requirements.txt
+
