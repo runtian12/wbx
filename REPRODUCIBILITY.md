@@ -1,10 +1,8 @@
 # 复现指南
 
-本文档按子项目说明环境准备、数据准备和运行命令。由于不同实验依赖的 Transformers、CUDA、vLLM 版本可能互相冲突，推荐为每个子项目建立独立环境。
+本文档给出本仓库的端到端复现流程，包括环境配置、外部资源准备、模块执行顺序和实验产物路径。由于不同模块依赖的 Transformers、CUDA、vLLM 版本不同，建议为每个模块建立独立环境。
 
-## 0. 通用准备
-
-推荐环境：
+## 0. 实验环境
 
 - Python 3.10 或 3.11；
 - NVIDIA GPU 与 CUDA，用于大模型训练、推理和 vLLM 数据生成；
@@ -17,7 +15,7 @@
 python scripts/check_project.py
 ```
 
-如果使用 Hugging Face gated model，请先登录：
+如果实验使用 gated model，先完成 Hugging Face 认证：
 
 ```bash
 huggingface-cli login
@@ -43,11 +41,17 @@ pip install -r requirements.txt
 python run_demo.py
 ```
 
-说明：
+实验输入：
 
-- `run_demo.py` 使用 `hf-internal-testing/tiny-random-LlamaForCausalLM`，适合验证流程是否能跑通；
-- `run_template.py` 是替换真实模型、校准集和蒸馏数据后的实验模板；
-- 正式实验需要自行准备 teacher/base/reference 模型、校准数据和蒸馏数据。
+- teacher model、base model 和 reference model；
+- calibration loader，用于结构化剪枝重要性估计；
+- distillation loader，用于选择性知识蒸馏。
+
+实验输出：
+
+- 剪枝后的 student model；
+- 资源估计结果，包括参数显存、KV cache 显存、FLOPs 和理论时延；
+- 蒸馏阶段的损失日志。
 
 ## 2. EGASD
 
@@ -63,7 +67,7 @@ cd <repo-root>
 pip install -r egasd/requirements.txt
 ```
 
-CPU smoke test：
+CPU 功能验证：
 
 ```bash
 python -m egasd.example_usage \
@@ -74,7 +78,7 @@ python -m egasd.example_usage \
   --no_pivot
 ```
 
-GPU 示例：
+GPU 解码实验：
 
 ```bash
 python -m egasd.example_usage \
@@ -97,11 +101,19 @@ python -m egasd.train_acceptance_head \
   --device cuda
 ```
 
-注意：
+实验输入：
 
-- `egasd/data/sample_train.json` 只用于展示数据格式，不代表有效训练集；
-- 正式训练数据格式见 `egasd/data/README.md`；
-- 如果没有训练好的接受预测头或 Pivot 分类器，`example_usage.py` 会退化为熵启发式和标准验证流程。
+- draft model：小规模草稿模型；
+- target model：目标大模型；
+- acceptance head：接受概率预测头，可由 `train_acceptance_head.py` 训练；
+- pivot classifier：Pivot token 分类器，可复用 PAD 模块训练产物或单独训练。
+
+实验输出：
+
+- 生成文本；
+- draft token 数量、接受 token 数量、接受率；
+- 平均熵、平均动态阈值、平均草稿长度；
+- 推理耗时。
 
 ## 3. PAD
 
@@ -111,7 +123,7 @@ python -m egasd.train_acceptance_head \
 cd PAD-main
 ```
 
-PAD 分为两个环境：
+PAD 分为两个执行环境：
 
 - 数据生成环境：需要 vLLM；
 - 解码和分类器训练环境：使用 PyTorch、Transformers、scikit-learn、wandb 等。
@@ -161,7 +173,7 @@ python dataset_generation.py \
 python train_classifier.py
 ```
 
-`train_classifier.py` 当前通过文件顶部的 `Args` 类配置实验。复现时需要至少检查：
+`train_classifier.py` 当前通过文件顶部的 `Args` 类配置实验。复现前需要设置：
 
 - `target_model_name`
 - `draft_model_name`
@@ -201,15 +213,21 @@ pip install -r requirements.txt
 
 数据准备、训练接受预测头和评估命令见 `SpecDec_pp-main/README.md` 与 `SpecDec_pp-main/data/readme.md`。
 
-注意：
+实验输入：
 
-- 原项目依赖 `transformers==4.34.1`；
-- 评估 LLaMA-2 7B/70B 需要足够显存和 Hugging Face 访问权限；
-- `assets/` 中的图片用于论文方法说明，可保留上传。
+- Alpaca、HumanEval、GSM8K 等评估数据；
+- draft model 和 target model；
+- acceptance prediction head checkpoint。
 
-## 5. 结果记录建议
+实验输出：
 
-建议每次实验保存：
+- SpecDec++、固定长度 SpecDec 和无推测解码 baseline 的生成结果；
+- `spec_time`、`target_time`、`draft_time`；
+- `num_mismatched_tokens`、`num_LM_call`、`generated_length`。
+
+## 5. 实验记录格式
+
+每次实验保存以下信息：
 
 - 命令行参数或配置文件；
 - Git commit hash；
@@ -217,4 +235,3 @@ pip install -r requirements.txt
 - 数据集版本和切分方式；
 - 模型权重名称、下载日期和 checkpoint 路径；
 - 训练日志、评估 JSON 和随机种子。
-
