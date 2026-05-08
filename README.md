@@ -19,6 +19,18 @@
 │   │   ├── run_hardware_plot_experiment.py
 │   │   ├── run_chapter2_experiments.py
 │   │   └── requirements.txt
+│   ├── chapter4_lightweighting/
+│   │   ├── 101.py
+│   │   ├── 102.py
+│   │   ├── 知识蒸馏对比.py
+│   │   ├── 收敛.py
+│   │   ├── run_convergence_experiment.py
+│   │   ├── run_pruning_accuracy_experiment.py
+│   │   ├── run_pruning_ppl_experiment.py
+│   │   ├── run_distillation_comparison_experiment.py
+│   │   ├── run_table_4_3_hardware_constraints.py
+│   │   ├── run_table_4_4_ablation.py
+│   │   └── run_table_4_5_kvret.py
 │   └── chapter4_tables/
 │       ├── table_data.py
 │       ├── run_table_4_8_model_dataset.py
@@ -60,6 +72,7 @@
 | --- | --- | --- |
 | `chapter2_project/chapter2_project` | 第二章：硬件资源感知的模型轻量化代码骨架，包含资源估计、结构化剪枝、选择性蒸馏和完整 pipeline。 | `python run_demo.py` |
 | `experiments/chapter2_plots` | 第二章实验结果绘图脚本，包含带宽约束实验和硬件平台实验。 | `run_bandwidth_experiment.py`、`run_hardware_plot_experiment.py` |
+| `experiments/chapter4_lightweighting` | 第 4.1.6 节轻量化实验复现脚本，包含收敛、剪枝、蒸馏和表4-3至表4-5。 | `run_convergence_experiment.py` 等 |
 | `experiments/chapter4_tables` | 第 4.2 节实验表格复现脚本，包含表4-8至表4-11的数据导出与指标汇总。 | `run_table_4_8_model_dataset.py` 等 |
 | `egasd` | Entropy-Guided Adaptive Speculative Decoding，融合熵引导动态草稿长度、接受概率预测和 Pivot 验证。 | `python -m egasd.example_usage` |
 | `PAD-main` | Pivot-Aware Speculative Decoding，包含训练数据生成、Pivot 分类器训练和解码评估脚本。 | `dataset_generation.py`、`train_classifier.py`、`decode.py` |
@@ -199,7 +212,22 @@ python experiments/chapter2_plots/run_hardware_plot_experiment.py
 
 上述两个入口分别调用 `experiments/chapter2_plots/202.py` 和 `experiments/chapter2_plots/204.py`，生成带宽约束实验和硬件平台实验的准确率、时延、吞吐量对比图。输出目录为 `outputs/chapter2_plots/`。
 
-### 4. 复现第 4.2 节实验表格
+### 4. 复现第 4.1.6 节轻量化实验
+
+```bash
+pip install -r experiments/chapter4_lightweighting/requirements.txt
+python experiments/chapter4_lightweighting/run_convergence_experiment.py
+python experiments/chapter4_lightweighting/run_pruning_accuracy_experiment.py
+python experiments/chapter4_lightweighting/run_pruning_ppl_experiment.py
+python experiments/chapter4_lightweighting/run_distillation_comparison_experiment.py
+python experiments/chapter4_lightweighting/run_table_4_3_hardware_constraints.py
+python experiments/chapter4_lightweighting/run_table_4_4_ablation.py
+python experiments/chapter4_lightweighting/run_table_4_5_kvret.py
+```
+
+上述入口分别复现图4-6、图4-7、图4-8以及表4-3至表4-5。输出目录为 `outputs/chapter4_lightweighting/`。
+
+### 5. 复现第 4.2 节实验表格
 
 ```bash
 python experiments/chapter4_tables/run_table_4_8_model_dataset.py
@@ -210,7 +238,7 @@ python experiments/chapter4_tables/run_table_4_11_ablation.py
 
 每个脚本对应一个论文表格，分别导出原始表格 CSV、归一化后的对比结果和 `summary.txt`。输出目录为 `outputs/chapter4_tables/`。
 
-### 5. 运行 EGASD 解码实验
+### 6. 运行 EGASD 解码实验
 
 ```bash
 pip install -r egasd/requirements.txt
@@ -235,7 +263,7 @@ python -m egasd.train_acceptance_head \
   --bf16
 ```
 
-### 6. 运行 PAD 数据生成、分类器训练和解码评估
+### 7. 运行 PAD 数据生成、分类器训练和解码评估
 
 ```bash
 cd PAD-main
@@ -275,7 +303,7 @@ python decode.py \
   --max_iter 200
 ```
 
-### 7. 运行 SpecDec++ 训练与评估
+### 8. 运行 SpecDec++ 训练与评估
 
 ```bash
 cd SpecDec_pp-main
@@ -290,7 +318,7 @@ specdec_pp/train.py
 specdec_pp/evaluate.py
 ```
 
-### 8. 汇总实验结果
+### 9. 汇总实验结果
 
 最终复现实验应至少汇总以下指标：
 

@@ -167,7 +167,58 @@ outputs/chapter2_plots/
 
 如果需要一次性执行两组图表实验，也可以运行 `python experiments/chapter2_plots/run_chapter2_experiments.py`。该总入口会额外生成 `outputs/chapter2_plots/run_log.json`，记录每个脚本的执行命令、起止时间、返回码、标准输出和错误输出。
 
-## 4. 第 4.2 节表格实验复现
+## 4. 第 4.1.6 节轻量化实验复现
+
+路径：
+
+```bash
+cd <repo-root>
+```
+
+安装绘图依赖：
+
+```bash
+pip install -r experiments/chapter4_lightweighting/requirements.txt
+```
+
+分别运行每个图表实验：
+
+```bash
+python experiments/chapter4_lightweighting/run_convergence_experiment.py
+python experiments/chapter4_lightweighting/run_pruning_accuracy_experiment.py
+python experiments/chapter4_lightweighting/run_pruning_ppl_experiment.py
+python experiments/chapter4_lightweighting/run_distillation_comparison_experiment.py
+python experiments/chapter4_lightweighting/run_table_4_3_hardware_constraints.py
+python experiments/chapter4_lightweighting/run_table_4_4_ablation.py
+python experiments/chapter4_lightweighting/run_table_4_5_kvret.py
+```
+
+实验输入：
+
+- `收敛.py`：训练步数与 BoolQ/PIQA 准确率收敛曲线；
+- `101.py`：BoolQ/PIQA 上不同剪枝率的准确率对比；
+- `102.py`：WikiText2/PTB 上不同剪枝率的困惑度对比；
+- `知识蒸馏对比.py`：OnlineKD、GKD、SemCKD 与 Proposed 的蒸馏结果对比；
+- 表4-3：不同硬件资源约束下的性能评估；
+- 表4-4：轻量化方法消融实验；
+- 表4-5：KVRET 车载数据集实验。
+
+实验输出：
+
+```text
+outputs/chapter4_lightweighting/
+├── convergence/
+├── pruning_accuracy/
+├── pruning_ppl/
+├── distillation_comparison/
+├── table_4_3_hardware_constraints/
+├── table_4_4_ablation/
+└── table_4_5_kvret/
+```
+
+每个输出目录包含图像或原始 CSV、分析 CSV、JSON 汇总和 `summary.txt`，用于复核第一个实验的图表结果。
+
+## 5. 第 4.2 节表格实验复现
 
 路径：
 
@@ -203,7 +254,7 @@ outputs/chapter4_tables/
 
 每个目录包含原始 CSV、分析 CSV、JSON 汇总和 `summary.txt`，用于复核论文表格数据和 Proposed 方法相对基线的性能差异。
 
-## 5. PAD
+## 6. PAD
 
 路径：
 
@@ -285,7 +336,7 @@ python decode.py \
   --max_iter 200
 ```
 
-## 6. SpecDec++
+## 7. SpecDec++
 
 路径：
 
@@ -313,7 +364,7 @@ pip install -r requirements.txt
 - `spec_time`、`target_time`、`draft_time`；
 - `num_mismatched_tokens`、`num_LM_call`、`generated_length`。
 
-## 7. 实验记录格式
+## 8. 实验记录格式
 
 每次实验保存以下信息：
 
