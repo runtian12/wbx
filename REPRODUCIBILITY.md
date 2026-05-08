@@ -129,13 +129,14 @@ cd <repo-root>
 pip install -r experiments/chapter2_plots/requirements.txt
 ```
 
-运行统一入口：
+分别运行两个图表实验入口：
 
 ```bash
-python experiments/chapter2_plots/run_chapter2_experiments.py
+python experiments/chapter2_plots/run_bandwidth_experiment.py
+python experiments/chapter2_plots/run_hardware_plot_experiment.py
 ```
 
-该命令会依次调用：
+这两个命令分别调用：
 
 ```text
 experiments/chapter2_plots/202.py
@@ -162,12 +163,47 @@ outputs/chapter2_plots/
 │   ├── hardware_latency.png
 │   ├── hardware_throughput.png
 │   └── hardware_metrics.csv
-└── run_log.json
 ```
 
-其中 `run_log.json` 记录每个脚本的执行命令、起止时间、返回码、标准输出和错误输出，便于录屏展示完整复现链路。
+如果需要一次性执行两组图表实验，也可以运行 `python experiments/chapter2_plots/run_chapter2_experiments.py`。该总入口会额外生成 `outputs/chapter2_plots/run_log.json`，记录每个脚本的执行命令、起止时间、返回码、标准输出和错误输出。
 
-## 4. PAD
+## 4. 第 4.2 节表格实验复现
+
+路径：
+
+```bash
+cd <repo-root>
+```
+
+分别运行每个表格实验：
+
+```bash
+python experiments/chapter4_tables/run_table_4_8_model_dataset.py
+python experiments/chapter4_tables/run_table_4_9_threshold.py
+python experiments/chapter4_tables/run_table_4_10_hardware.py
+python experiments/chapter4_tables/run_table_4_11_ablation.py
+```
+
+实验输入：
+
+- 表4-8：不同模型和数据集上的性能结果；
+- 表4-9：不同关键词元验证阈值下的性能结果；
+- 表4-10：不同车辆硬件设备上的性能结果；
+- 表4-11：不同模块移除设置下的消融实验结果。
+
+实验输出：
+
+```text
+outputs/chapter4_tables/
+├── table_4_8_model_dataset/
+├── table_4_9_threshold/
+├── table_4_10_hardware/
+└── table_4_11_ablation/
+```
+
+每个目录包含原始 CSV、分析 CSV、JSON 汇总和 `summary.txt`，用于复核论文表格数据和 Proposed 方法相对基线的性能差异。
+
+## 5. PAD
 
 路径：
 
@@ -249,7 +285,7 @@ python decode.py \
   --max_iter 200
 ```
 
-## 5. SpecDec++
+## 6. SpecDec++
 
 路径：
 
@@ -277,7 +313,7 @@ pip install -r requirements.txt
 - `spec_time`、`target_time`、`draft_time`；
 - `num_mismatched_tokens`、`num_LM_call`、`generated_length`。
 
-## 6. 实验记录格式
+## 7. 实验记录格式
 
 每次实验保存以下信息：
 

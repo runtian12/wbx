@@ -8,15 +8,24 @@ This directory binds the uploaded thesis codebase with the two plotting scripts 
 | --- | --- |
 | `202.py` | Generates bandwidth-constrained inference figures. |
 | `204.py` | Generates hardware-platform inference figures. |
+| `run_bandwidth_experiment.py` | Runs only the bandwidth experiment backed by `202.py`. |
+| `run_hardware_plot_experiment.py` | Runs only the hardware plotting experiment backed by `204.py`. |
 | `run_chapter2_experiments.py` | Runs `202.py` and `204.py` in sequence and records a reproducible log. |
 | `requirements.txt` | Minimal dependencies for the plotting scripts. |
 
 ## Run
 
-From the repository root:
+Run the two figure experiments separately from the repository root:
 
 ```bash
 pip install -r experiments/chapter2_plots/requirements.txt
+python experiments/chapter2_plots/run_bandwidth_experiment.py
+python experiments/chapter2_plots/run_hardware_plot_experiment.py
+```
+
+The combined runner is still available when a single full plotting pass is needed:
+
+```bash
 python experiments/chapter2_plots/run_chapter2_experiments.py
 ```
 
@@ -38,4 +47,3 @@ outputs/chapter2_plots/
 ```
 
 The `outputs/` directory is ignored by Git because these files are generated artifacts.
-
