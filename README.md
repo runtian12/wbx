@@ -11,6 +11,12 @@
 ├── requirements-common.txt
 ├── scripts/
 │   └── check_project.py
+├── experiments/
+│   └── chapter2_plots/
+│       ├── 202.py
+│       ├── 204.py
+│       ├── run_chapter2_experiments.py
+│       └── requirements.txt
 ├── chapter2_project/
 │   └── chapter2_project/
 │       ├── README.md
@@ -45,6 +51,7 @@
 | 目录 | 作用 | 推荐入口 |
 | --- | --- | --- |
 | `chapter2_project/chapter2_project` | 第二章：硬件资源感知的模型轻量化代码骨架，包含资源估计、结构化剪枝、选择性蒸馏和完整 pipeline。 | `python run_demo.py` |
+| `experiments/chapter2_plots` | 第二章实验结果绘图脚本，包含带宽约束实验和硬件平台实验。 | `python experiments/chapter2_plots/run_chapter2_experiments.py` |
 | `egasd` | Entropy-Guided Adaptive Speculative Decoding，融合熵引导动态草稿长度、接受概率预测和 Pivot 验证。 | `python -m egasd.example_usage` |
 | `PAD-main` | Pivot-Aware Speculative Decoding，包含训练数据生成、Pivot 分类器训练和解码评估脚本。 | `dataset_generation.py`、`train_classifier.py`、`decode.py` |
 | `SpecDec_pp-main` | SpecDec++ 原始实现，用于训练接受概率预测头并评估自适应候选长度。 | `SpecDec_pp-main/README.md` |
@@ -173,7 +180,16 @@ python run_demo.py
 
 该步骤验证资源估计、结构化剪枝和选择性蒸馏 pipeline 的基本执行流程。真实实验可在 `run_template.py` 中替换 teacher model、base model、reference model、校准集和蒸馏数据。
 
-### 3. 运行 EGASD 解码实验
+### 3. 生成第二章实验图
+
+```bash
+pip install -r experiments/chapter2_plots/requirements.txt
+python experiments/chapter2_plots/run_chapter2_experiments.py
+```
+
+该步骤依次调用 `experiments/chapter2_plots/202.py` 和 `experiments/chapter2_plots/204.py`，生成带宽约束实验和硬件平台实验的准确率、时延、吞吐量对比图。输出目录为 `outputs/chapter2_plots/`。
+
+### 4. 运行 EGASD 解码实验
 
 ```bash
 pip install -r egasd/requirements.txt
@@ -198,7 +214,7 @@ python -m egasd.train_acceptance_head \
   --bf16
 ```
 
-### 4. 运行 PAD 数据生成、分类器训练和解码评估
+### 5. 运行 PAD 数据生成、分类器训练和解码评估
 
 ```bash
 cd PAD-main
@@ -238,7 +254,7 @@ python decode.py \
   --max_iter 200
 ```
 
-### 5. 运行 SpecDec++ 训练与评估
+### 6. 运行 SpecDec++ 训练与评估
 
 ```bash
 cd SpecDec_pp-main
@@ -253,7 +269,7 @@ specdec_pp/train.py
 specdec_pp/evaluate.py
 ```
 
-### 6. 汇总实验结果
+### 7. 汇总实验结果
 
 最终复现实验应至少汇总以下指标：
 

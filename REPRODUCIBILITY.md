@@ -115,7 +115,59 @@ python -m egasd.train_acceptance_head \
 - 平均熵、平均动态阈值、平均草稿长度；
 - 推理耗时。
 
-## 3. PAD
+## 3. 第二章实验图复现
+
+路径：
+
+```bash
+cd <repo-root>
+```
+
+安装依赖：
+
+```bash
+pip install -r experiments/chapter2_plots/requirements.txt
+```
+
+运行统一入口：
+
+```bash
+python experiments/chapter2_plots/run_chapter2_experiments.py
+```
+
+该命令会依次调用：
+
+```text
+experiments/chapter2_plots/202.py
+experiments/chapter2_plots/204.py
+```
+
+实验输入：
+
+- `202.py`：带宽约束场景，包含 10 Mbps、30 Mbps、50 Mbps；
+- `204.py`：硬件平台场景，包含 Jetson Orin Nano、Jetson Orin NX、RTX 3060；
+- 对比方法包括 Proposed、IACI、PSOCI、Neur 和 DeeBERT。
+
+实验输出：
+
+```text
+outputs/chapter2_plots/
+├── bandwidth/
+│   ├── bw_accuracy_bar.png
+│   ├── bw_latency_bar.png
+│   ├── bw_throughput_bar.png
+│   └── bandwidth_metrics.csv
+├── hardware/
+│   ├── hardware_accuracy.png
+│   ├── hardware_latency.png
+│   ├── hardware_throughput.png
+│   └── hardware_metrics.csv
+└── run_log.json
+```
+
+其中 `run_log.json` 记录每个脚本的执行命令、起止时间、返回码、标准输出和错误输出，便于录屏展示完整复现链路。
+
+## 4. PAD
 
 路径：
 
@@ -197,7 +249,7 @@ python decode.py \
   --max_iter 200
 ```
 
-## 4. SpecDec++
+## 5. SpecDec++
 
 路径：
 
@@ -225,7 +277,7 @@ pip install -r requirements.txt
 - `spec_time`、`target_time`、`draft_time`；
 - `num_mismatched_tokens`、`num_LM_call`、`generated_length`。
 
-## 5. 实验记录格式
+## 6. 实验记录格式
 
 每次实验保存以下信息：
 
