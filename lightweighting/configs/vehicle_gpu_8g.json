@@ -1,0 +1,66 @@
+{
+  "model": {
+    "base_model": "Qwen/Qwen2.5-0.5B",
+    "teacher_model": "Qwen/Qwen2.5-1.5B",
+    "reference_model": "Qwen/Qwen2.5-0.5B",
+    "tokenizer": "Qwen/Qwen2.5-0.5B",
+    "trust_remote_code": true
+  },
+  "model_topology": {
+    "num_layers": 24,
+    "hidden_size": 896,
+    "intermediate_size": 4864,
+    "num_heads": 14
+  },
+  "data": {
+    "calibration_texts_path": "../data/sample_corpus.txt",
+    "distill_texts_path": "../data/sample_corpus.txt",
+    "max_length": 128,
+    "batch_size": 1
+  },
+  "vehicle": {
+    "max_memory_bytes": 8589934592,
+    "effective_flops_per_sec": 2000000000000.0,
+    "max_latency_sec": 0.8,
+    "max_input_len": 128,
+    "max_output_len": 512,
+    "weight_bits": 16
+  },
+  "search": {
+    "population_size": 24,
+    "iterations": 20,
+    "elite_ratio": 0.25,
+    "mutation_prob": 0.3,
+    "mutation_scale": 0.08,
+    "seed": 42,
+    "bounds": {
+      "emb_min": 0.0,
+      "emb_max": 0.3,
+      "head_min": 0.0,
+      "head_max": 0.5,
+      "ffn_min": 0.0,
+      "ffn_max": 0.5
+    }
+  },
+  "distill": {
+    "keep_ratio": 0.4,
+    "epochs": 1,
+    "lr": 0.00002,
+    "weight_decay": 0.01,
+    "temperature": 1.0,
+    "grad_clip": 1.0,
+    "log_every": 20
+  },
+  "output": {
+    "output_dir": "../outputs/vehicle_gpu_8g",
+    "save_model_state": true,
+    "save_masks": true,
+    "save_report": true
+  },
+  "runtime": {
+    "device": "cuda",
+    "max_calibration_batches": 8,
+    "seed": 42
+  }
+}
+

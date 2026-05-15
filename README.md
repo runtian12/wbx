@@ -1,12 +1,24 @@
 # 毕业论文代码复现说明
 
-本仓库整理了毕业论文中与大模型高效推理相关的代码，包含模型轻量化、推测解码、接受概率预测和 Pivot-Aware 验证等实验模块。目录已按子项目拆分，上传 GitHub 后建议把本文件作为读者的第一个入口。
+本仓库整理了毕业论文中与大模型高效推理相关的代码，包含模型轻量化、推测解码、接受概率预测和 Pivot-Aware 验证等实验模块。目录已按研究点和实验编号拆分，读者可以通过下方两个代码链接进入对应研究内容。
+
+## 论文代码链接
+
+王冰心论文代码链接：https://github.com/runtian12/wbx/tree/main/lightweighting  https://github.com/runtian12/wbx/tree/main/speculative-decoding
+
+其中 `lightweighting` 对应研究点一：硬件资源感知模型轻量化方法；`speculative-decoding` 对应研究点二：基于改进推测解码的车云协同推理方法。每个目录内部包含该研究点的代码目录、环境配置、运行入口、实验图表复现命令和输出文件位置。`REPRODUCIBILITY.md` 保留完整的跨模块命令说明，适合需要一次性检查全部目录、数据路径和实验产物的读者。
 
 ## 项目结构
 
 ```text
 代码/
 ├── README.md
+├── lightweighting/
+│   └── README.md
+├── speculative-decoding/
+│   └── README.md
+├── RESEARCH_POINT_1_MODEL_LIGHTWEIGHTING.md
+├── RESEARCH_POINT_2_SPECULATIVE_DECODING.md
 ├── REPRODUCIBILITY.md
 ├── requirements-common.txt
 ├── scripts/

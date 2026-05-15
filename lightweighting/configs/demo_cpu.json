@@ -1,0 +1,66 @@
+{
+  "model": {
+    "base_model": "hf-internal-testing/tiny-random-LlamaForCausalLM",
+    "teacher_model": "hf-internal-testing/tiny-random-LlamaForCausalLM",
+    "reference_model": "hf-internal-testing/tiny-random-LlamaForCausalLM",
+    "tokenizer": "hf-internal-testing/tiny-random-LlamaForCausalLM",
+    "trust_remote_code": false
+  },
+  "model_topology": {
+    "num_layers": 2,
+    "hidden_size": 16,
+    "intermediate_size": 64,
+    "num_heads": 4
+  },
+  "data": {
+    "calibration_texts_path": "../data/sample_corpus.txt",
+    "distill_texts_path": "../data/sample_corpus.txt",
+    "max_length": 64,
+    "batch_size": 2
+  },
+  "vehicle": {
+    "max_memory_bytes": 8589934592,
+    "effective_flops_per_sec": 2000000000000.0,
+    "max_latency_sec": 0.8,
+    "max_input_len": 100,
+    "max_output_len": 256,
+    "weight_bits": 16
+  },
+  "search": {
+    "population_size": 8,
+    "iterations": 4,
+    "elite_ratio": 0.25,
+    "mutation_prob": 0.3,
+    "mutation_scale": 0.08,
+    "seed": 42,
+    "bounds": {
+      "emb_min": 0.0,
+      "emb_max": 0.3,
+      "head_min": 0.0,
+      "head_max": 0.5,
+      "ffn_min": 0.0,
+      "ffn_max": 0.5
+    }
+  },
+  "distill": {
+    "keep_ratio": 0.4,
+    "epochs": 1,
+    "lr": 0.00001,
+    "weight_decay": 0.01,
+    "temperature": 1.0,
+    "grad_clip": 1.0,
+    "log_every": 10
+  },
+  "output": {
+    "output_dir": "../outputs/demo_cpu",
+    "save_model_state": true,
+    "save_masks": true,
+    "save_report": true
+  },
+  "runtime": {
+    "device": "auto",
+    "max_calibration_batches": 2,
+    "seed": 42
+  }
+}
+
